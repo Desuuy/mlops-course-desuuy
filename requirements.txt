@@ -5,3 +5,6 @@ scikit-learn==1.7.2
 matplotlib==3.10.0
 scipy==1.16.2
 pre-commit==4.3.0
+mlflow==3.5.1
+fastapi==0.120.0
+uvicorn==0.38.0

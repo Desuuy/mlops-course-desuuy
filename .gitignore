@@ -205,6 +205,19 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+<<<<<<< HEAD
 
 # Artifacts
 *.joblib
+=======
+*.joblib
+mlruns/
+>>>>>>> upstream/main
+
+# artifacts
+*.joblib
+mlruns/
+
+# artifacts
+*.joblib
+mlruns/
