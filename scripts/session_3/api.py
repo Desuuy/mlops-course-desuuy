@@ -49,4 +49,12 @@ def calculate(request: CalculateRequest) -> CalculateResponse:
 
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=3000, reload=True)
+    # uvicorn.run("api:app", host="0.0.0.0", port=3000, reload=True)
+    # uvicorn.run(app, host="0.0.0.0", port=3000, reload=True)
+    uvicorn.run("scripts.session_3.api:app",
+                host="0.0.0.0",
+                port=3000,
+                reload=True)
+    # Lệnh chạy uvicorn scripts.session_3.api:app --host 0.0.0.0 --port 3000 --reload 
+    # http://localhost:3000/docs
+ 

@@ -5,6 +5,10 @@ from fastapi import APIRouter
 from scripts.session_3.schemas.request import HousingPredictionRequest
 from scripts.session_3.schemas.response import HousingPredictionResponse
 
+# 1) TRỎ TỚI MLflow server (HTTP), KHÔNG DÙNG file://
+mlflow.set_tracking_uri("http://localhost:8080")
+print("tracking uri trong predict.py:", mlflow.get_tracking_uri())
+
 model_name = "housing_prediction"
 model_version = "1"
 alias = "the_best"
