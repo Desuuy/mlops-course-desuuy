@@ -140,6 +140,179 @@ pip --version
 
 ---
 
+## 6) Install Docker
+
+Docker is essential for containerizing applications and ensuring consistent environments across different systems. We'll install Docker Desktop for Windows/macOS or Docker Engine for Linux.
+
+### 6.1 Windows (WSL2)
+
+Docker Desktop for Windows integrates seamlessly with WSL2.
+
+1. **Download Docker Desktop**:
+   - Visit [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+   - Download "Docker Desktop for Windows"
+   - Run the installer (`Docker Desktop Installer.exe`)
+
+2. **Installation Steps**:
+   - When prompted, ensure "Use WSL 2 instead of Hyper-V" is checked
+   - Follow the installation wizard
+   - Restart your computer when prompted
+
+3. **Launch Docker Desktop**:
+   - Start Docker Desktop from the Start Menu
+   - Wait for Docker to start (you'll see a Docker icon in the system tray)
+
+4. **Verify Installation** (inside WSL Ubuntu):
+   ```bash
+   docker --version
+   docker-compose --version
+   docker run hello-world
+   ```
+   The `hello-world` command should pull and run a test container successfully.
+
+5. **Optional: Configure WSL2 Integration**:
+   - Open Docker Desktop → Settings → Resources → WSL Integration
+   - Enable integration with your Ubuntu distribution
+   - Click "Apply & Restart"
+
+### 6.2 macOS
+
+Docker Desktop for macOS supports both Apple Silicon (M1/M2/M3) and Intel processors.
+
+#### For Apple Silicon (M1/M2/M3) Macs:
+
+1. **Download Docker Desktop**:
+   - Visit [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+   - Download "Docker Desktop for Mac with Apple Silicon"
+   - Open the downloaded `.dmg` file
+
+2. **Installation**:
+   - Drag Docker.app to Applications folder
+   - Open Docker from Applications (you may need to authorize in System Preferences → Security & Privacy)
+   - Enter your macOS password when prompted
+
+3. **Verify Installation**:
+   ```bash
+   docker --version
+   docker-compose --version
+   docker run hello-world
+   ```
+
+#### For Intel Macs:
+
+1. **Download Docker Desktop**:
+   - Visit [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+   - Download "Docker Desktop for Mac with Intel chip"
+   - Follow the same installation steps as above
+
+**Alternative (via Homebrew)**:
+```bash
+# Install via Homebrew (works for both Apple Silicon and Intel)
+brew install --cask docker
+
+# Start Docker Desktop
+open /Applications/Docker.app
+
+# Wait for Docker to start, then verify
+docker --version
+docker-compose --version
+docker run hello-world
+```
+
+### 6.3 Linux (Ubuntu/Debian-based)
+
+We'll install Docker Engine using the official Docker repository (recommended method).
+
+1. **Remove old versions** (if any):
+   ```bash
+   sudo apt-get remove docker docker-engine docker.io containerd runc
+   ```
+
+2. **Install prerequisites**:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y \
+       ca-certificates \
+       curl \
+       gnupg \
+       lsb-release
+   ```
+
+3. **Add Docker's official GPG key**:
+   ```bash
+   sudo mkdir -p /etc/apt/keyrings
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+   ```
+
+4. **Set up Docker repository**:
+   ```bash
+   echo \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   ```
+
+5. **Install Docker Engine, CLI, and Containerd**:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   ```
+
+6. **Add your user to the docker group** (to run Docker without sudo):
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+   **Important**: Log out and log back in (or restart your terminal) for this change to take effect.
+
+7. **Verify Installation**:
+   ```bash
+   docker --version
+   docker-compose --version
+   docker run hello-world
+   ```
+
+### 6.4 Verify Docker Installation (All Platforms)
+
+After installation, verify that Docker is working correctly:
+
+```bash
+# Check Docker version
+docker --version
+# Should output something like: Docker version 24.0.7, build afdd53b
+
+# Check Docker Compose version
+docker-compose --version
+# Should output something like: Docker Compose version v2.23.0
+
+# Run a test container
+docker run hello-world
+# This should download and run a test image, printing "Hello from Docker!"
+
+# Check Docker daemon is running
+docker info
+# This should show detailed system information
+```
+
+### Troubleshooting
+
+**Windows WSL2**:
+- If `docker` command is not found in WSL, ensure Docker Desktop is running and WSL integration is enabled in Docker Desktop settings.
+- If you get permission errors, make sure your WSL Ubuntu user is in the `docker` group (usually handled automatically by Docker Desktop).
+
+**macOS**:
+- If Docker Desktop doesn't start, check System Preferences → Security & Privacy → General for authorization prompts.
+- On Apple Silicon, ensure you're using the Apple Silicon version of Docker Desktop.
+
+**Linux**:
+- If you get "permission denied" errors, ensure you've added your user to the docker group and logged out/in.
+- If Docker daemon isn't running, start it with: `sudo systemctl start docker`
+- Enable Docker to start on boot: `sudo systemctl enable docker`
+
+**General**:
+- If `hello-world` fails to pull, check your internet connection and Docker daemon status.
+- For more help, visit: [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)
+
+---
+
 ## 7) Verify Git + GitHub access
 
 1. In your dev shell, generate an SSH key if you chose SSH:

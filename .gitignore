@@ -221,3 +221,5 @@ mlruns/
 # artifacts
 *.joblib
 mlruns/
+
+scripts/session_9/reports/
