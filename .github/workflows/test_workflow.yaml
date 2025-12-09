@@ -60,8 +60,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
-          tags: docker.io/${{ vars.DOCKER_USERNAME }}/mlops-course-app:PULL-${{ github.event.number }}
+          context: . # Build từ thư mục gốc 
+          tags: docker.io/${{ vars.DOCKER_USERNAME }}/mlops-course-app:PULL-${{ github.event.number }} # Pull Request
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
         with:
