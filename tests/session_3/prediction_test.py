@@ -1,8 +1,17 @@
+# Magic Mock is a library that allows you to create mock objects that can be used to test your code.
 from unittest.mock import MagicMock, patch
 
 import pytest
 
+# Step
+"""
+    Function nào được dùng thì nên MockMock
+    1. Create a mock object with MagicMock (@pytest.fixture)
+    2. Patch the mock object
+    3. Use the mock object in the test case
+"""
 
+# Featue Fixture: Có thể được reuse lại nhiều lần khi sử dụng test case
 @pytest.fixture
 def mock_model():
     mock_model = MagicMock()
@@ -10,6 +19,7 @@ def mock_model():
     # def ...
     #   return [2.0]
     mock_model.predict.return_value = [2.0]
+    # Function thì nên có return value
     return mock_model
 
 
@@ -28,7 +38,7 @@ def mock_mlflow_server(mock_model):
     with patch("scripts.session_3.router.predict.mlflow", mock_mlflow_server):
         yield mock_mlflow_server
 
-
+# Use pytest + path to testing 
 def test_get_model(mock_mlflow_server, mock_model):
     from scripts.session_3.router.predict import get_model
 
@@ -37,7 +47,8 @@ def test_get_model(mock_mlflow_server, mock_model):
     result = model.predict([1, 2, 3])
     assert result == [2.0]
 
-
+# Dùng để test API 
+# Phải có Unit test để đảm bảo quá trình thực hiện API là đúng
 def test_predict(mock_mlflow_server, mock_model, mock_pandas):
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
