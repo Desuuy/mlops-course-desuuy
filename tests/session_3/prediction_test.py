@@ -60,6 +60,7 @@ def test_predict(mock_mlflow_server, mock_model, mock_pandas):
     client = TestClient(app)
     response = client.post(
         "/housing/predict",
+        # Format JSON  
         json={
             "average_area_income": 100000,
             "average_area_house_age": 10,

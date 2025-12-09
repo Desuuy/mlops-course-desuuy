@@ -26,8 +26,23 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
       - name: Install dependencies
         run: pip install -r requirements.txt
+      # Start MLflow server
+      - name: Start MLflow server
+        run: |
+          mlflow server \
+            --backend-store-uri sqlite:///mlruns.db \
+            --default-artifact-root file:./mlruns \
+            --host 127.0.0.1 \
+            --port 8080 &
+          echo $! > mlflow_pid
+          sleep 5
       - name: Run tests
+        env:
+          OUR_MLFLOW_HOST: http://127.0.0.1:8080
         run: pytest --cov
+      - name: Stop MLflow server
+        if: always()
+        run: kill $(cat mlflow_pid)
 
   deploy_job_pr:
     needs: test_job
