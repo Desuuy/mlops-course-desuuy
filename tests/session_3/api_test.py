@@ -3,6 +3,15 @@ from fastapi.testclient import TestClient
 
 from scripts.session_3.api import app
 
+# 200 là các mã an toàn
+# 400 là các mã lỗi
+# 404 là các mã lỗi không tìm thấy
+# 405 là các mã lỗi phương thức không hợp lệ
+# 406 là các mã lỗi không chấp nhận
+# 407 là các mã lỗi không xác thực
+# 408 là các mã lỗi thời gian chờ hết hạn
+# 409 là các mã lỗi xung đột
+# 410 là các mã lỗi đã xóa
 
 @pytest.fixture
 def client():
